@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LoanLens - Model Performance</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #0f172a;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 180px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 14px 10px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .brand {
+            padding: 0 8px 18px;
+            border-bottom: 1px solid #293244;
+            margin-bottom: 28px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .brand p {
+            margin: 7px 0 0;
+            color: #9ca3af;
+            font-size: 8px;
+            line-height: 1.4;
+        }
+
+        .nav-section {
+            margin-bottom: 22px;
+        }
+
+        .nav-title {
+            color: #6f82a5;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0 8px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            width: 100%;
+            padding: 9px 9px;
+            margin-bottom: 4px;
+            border-radius: 7px;
+            color: #e5e7eb;
+            font-size: 11px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .main {
+            margin-left: 180px;
+            padding: 30px 28px 50px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #0f172a;
+            letter-spacing: -0.7px;
+        }
+
+        .page-header p {
+            margin: 7px 0 0;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .model-badge {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 8px;
+            padding: 11px 17px;
+            color: #53617b;
+            font-size: 12px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+            margin-bottom: 28px;
+        }
+
+        .card h2 {
+            margin: 0 0 9px;
+            font-size: 23px;
+            color: #0f172a;
+        }
+
+        .card p {
+            margin: 0;
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .model-tag {
+            display: inline-block;
+            margin-top: 18px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 8px 13px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .section-heading {
+            margin-bottom: 14px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 23px;
+            color: #0f172a;
+        }
+
+        .section-heading p {
+            margin: 6px 0 0;
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .metric-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .metric-label {
+            color: #60708f;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .metric-value {
+            color: #0f172a;
+            font-size: 29px;
+            font-weight: 700;
+        }
+
+        .metric-description {
+            margin-top: 8px;
+            color: #718096;
+            font-size: 11px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .overview-card,
+        .matrix-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .overview-card h2,
+        .matrix-card h2 {
+            margin: 0 0 10px;
+            font-size: 19px;
+        }
+
+        .overview-card p,
+        .matrix-card p {
+            color: #718096;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .model-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .model-stat {
+            background: #f7f9fc;
+            border-radius: 8px;
+            padding: 17px;
+        }
+
+        .model-stat-label {
+            color: #61708c;
+            font-size: 11px;
+            margin-bottom: 9px;
+        }
+
+        .model-stat-value {
+            color: #111827;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .matrix-wrapper {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .confusion-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .confusion-matrix th {
+            background: #f7f9fc;
+            color: #53617b;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #dce3ed;
+        }
+
+        .confusion-matrix td {
+            padding: 18px;
+            text-align: center;
+            border: 1px solid #dce3ed;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .confusion-matrix td:first-child {
+            font-size: 13px;
+            font-weight: 400;
+            color: #53617b;
+            background: #f7f9fc;
+        }
+
+        .interpretation {
+            margin-top: 22px;
+            background: #f7f9fc;
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        .interpretation h3 {
+            margin: 0 0 9px;
+            font-size: 14px;
+        }
+
+        .interpretation p {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .prediction-cta {
+            margin-top: 28px;
+            background: linear-gradient(
+                135deg,
+                #172554,
+                #2563eb
+            );
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .prediction-cta h2 {
+            margin: 0 0 7px;
+            font-size: 19px;
+        }
+
+        .prediction-cta p {
+            margin: 0;
+            font-size: 12px;
+            color: #dbeafe;
+            line-height: 1.5;
+        }
+
+        .prediction-button {
+            display: inline-block;
+            background: white;
+            color: #1d4ed8;
+            padding: 11px 17px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .prediction-button:hover {
+            background: #eff6ff;
+        }
+
+        @media (max-width: 1100px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .model-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .prediction-cta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <h1>
+                LoanLens
+            </h1>
+
+            <p>
+                Loan Analytics &amp; Risk Assessment
+            </p>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-title">
+                ANALYTICS
+            </div>
+
+
+            <a href="{{ url_for('dashboard') }}#overview"
+               class="nav-item">
+
+                🏠 Overview
+
+            </a>
+
+
+            <a href="{{ url_for('dashboard') }}#data-overview"
+               class="nav-item">
+
+                📋 Data Overview
+
+            </a>
+
+
+            <a href="{{ url_for('dashboard') }}#analytics"
+               class="nav-item">
+
+                📊 Analytics
+
+            </a>
+
+
+            <a href="{{ url_for('dashboard') }}#risk-analysis"
+               class="nav-item">
+
+                ⚠️ Risk Analysis
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-title">
+                PREDICTION
+            </div>
+
+
+            <a href="{{ url_for('model_page') }}"
+               class="nav-item active">
+
+                🤖 Model Performance
+
+            </a>
+
+
+            <a href="{{ url_for('personal') }}"
+               class="nav-item">
+
+                🔮 Try a Prediction
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- Main Content -->
+
+    <main class="main">
+
+
+        <!-- Page Header -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Model Performance
+                </h1>
+
+                <p>
+                    Evaluation of the LoanLens loan approval prediction model.
+                </p>
+
+            </div>
+
+
+            <div class="model-badge">
+                Random Forest
+            </div>
+
+        </div>
+
+
+
+        <!-- Model Description -->
+
+        <div class="card">
+
+            <h2>
+                Random Forest Classifier
+            </h2>
+
+            <p>
+                LoanLens uses a Random Forest classification model
+                to estimate whether a loan application is likely to
+                be approved based on applicant and financial attributes.
+            </p>
+
+            <div class="model-tag">
+                Classification Model
+            </div>
+
+        </div>
+
+
+
+        <!-- Performance -->
+
+        <div class="section-heading">
+
+            <h2>
+                Model Performance
+            </h2>
+
+            <p>
+                Results measured on the held-out test dataset.
+            </p>
+
+        </div>
+
+
+        <div class="metrics-grid">
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Accuracy
+                </div>
+
+                <div class="metric-value">
+
+                    {{ "%.2f"|format(
+                        evaluation.get('accuracy', 0)
+                    ) }}%
+
+                </div>
+
+                <div class="metric-description">
+                    Overall correctly classified applications.
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Precision
+                </div>
+
+                <div class="metric-value">
+
+                    {{ "%.2f"|format(
+                        evaluation.get('precision', 0)
+                    ) }}%
+
+                </div>
+
+                <div class="metric-description">
+                    Correct positive predictions.
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Recall
+                </div>
+
+                <div class="metric-value">
+
+                    {{ "%.2f"|format(
+                        evaluation.get('recall', 0)
+                    ) }}%
+
+                </div>
+
+                <div class="metric-description">
+                    Approved cases correctly identified.
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    F1 Score
+                </div>
+
+                <div class="metric-value">
+
+                    {{ "%.2f"|format(
+                        evaluation.get('f1', 0)
+                    ) }}%
+
+                </div>
+
+                <div class="metric-description">
+                    Balance between precision and recall.
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Model Overview + Confusion Matrix -->
+
+        <div class="two-column">
+
+
+            <!-- Model Overview -->
+
+            <div class="overview-card">
+
+                <h2>
+                    Model Overview
+                </h2>
+
+                <p>
+                    The Random Forest model combines multiple decision
+                    trees to classify loan applications. It is used as
+                    the prediction component of LoanLens while the
+                    dashboard focuses on analytics and risk assessment.
+                </p>
+
+
+                <div class="model-stats">
+
+
+                    <div class="model-stat">
+
+                        <div class="model-stat-label">
+                            Training Samples
+                        </div>
+
+                        <div class="model-stat-value">
+                            {{ evaluation.get('training_samples', 0) }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="model-stat">
+
+                        <div class="model-stat-label">
+                            Testing Samples
+                        </div>
+
+                        <div class="model-stat-value">
+                            {{ evaluation.get('testing_samples', 0) }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="model-stat">
+
+                        <div class="model-stat-label">
+                            Features
+                        </div>
+
+                        <div class="model-stat-value">
+                            {{ evaluation.get('feature_count', 0) }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Confusion Matrix -->
+
+            <div class="matrix-card">
+
+                <h2>
+                    Confusion Matrix
+                </h2>
+
+                <p>
+                    The confusion matrix shows the number of correct
+                    and incorrect predictions for each class.
+                </p>
+
+
+                <div class="matrix-wrapper">
+
+                    <table class="confusion-matrix">
+
+                        <thead>
+
+                            <tr>
+
+                                <th></th>
+
+                                <th>
+                                    Predicted No
+                                </th>
+
+                                <th>
+                                    Predicted Yes
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    Actual No
+                                </td>
+
+                                <td>
+                                    {{ evaluation.get('confusion_matrix', [[0,0],[0,0]])[0][0] }}
+                                </td>
+
+                                <td>
+                                    {{ evaluation.get('confusion_matrix', [[0,0],[0,0]])[0][1] }}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Actual Yes
+                                </td>
+
+                                <td>
+                                    {{ evaluation.get('confusion_matrix', [[0,0],[0,0]])[1][0] }}
+                                </td>
+
+                                <td>
+                                    {{ evaluation.get('confusion_matrix', [[0,0],[0,0]])[1][1] }}
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Interpretation -->
+
+        <div class="card" style="margin-top: 20px;">
+
+            <div class="interpretation">
+
+                <h3>
+                    Performance Interpretation
+                </h3>
+
+                <p>
+                    On the held-out test set, the Random Forest model
+                    correctly classified 182 of 200 applications,
+                    corresponding to an accuracy of 91.00%.
+                    The precision is 84.13%, recall is 86.89%, and
+                    the F1 score is 85.48%.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Prediction CTA -->
+
+        <div class="prediction-cta">
+
+            <div>
+
+                <h2>
+                    Test the Prediction Model
+                </h2>
+
+                <p>
+                    Enter applicant information and generate a
+                    loan approval prediction using the Random Forest model.
+                </p>
+
+            </div>
+
+
+            <a href="{{ url_for('personal') }}"
+               class="prediction-button">
+
+                Try a Prediction →
+
+            </a>
+
+        </div>
+
+
+    </main>
+
+</body>
+</html>

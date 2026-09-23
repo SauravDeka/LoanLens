@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LoanLens - Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #0f172a;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 180px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 14px 10px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .brand {
+            padding: 0 8px 18px;
+            border-bottom: 1px solid #293244;
+            margin-bottom: 20px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .brand p {
+            margin: 7px 0 0;
+            color: #9ca3af;
+            font-size: 8px;
+            line-height: 1.4;
+        }
+
+        .nav-section {
+            margin-bottom: 22px;
+        }
+
+        .nav-title {
+            color: #6f82a5;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0 8px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            width: 100%;
+            padding: 9px 9px;
+            margin-bottom: 4px;
+            border-radius: 7px;
+            color: #e5e7eb;
+            font-size: 11px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .main {
+            margin-left: 180px;
+            padding: 0 28px 50px;
+            min-height: 100vh;
+        }
+
+        .section {
+            padding-top: 1px;
+            margin-bottom: 34px;
+            scroll-margin-top: 20px;
+        }
+
+        .page-header {
+            padding-top: 0;
+            margin-bottom: 16px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #111827;
+        }
+
+        .page-header p {
+            margin: 6px 0 0;
+            font-size: 10px;
+            color: #718096;
+        }
+
+        .section-heading {
+            margin-bottom: 13px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #111827;
+        }
+
+        .section-heading p {
+            margin: 5px 0 0;
+            color: #718096;
+            font-size: 10px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 13px;
+            margin-bottom: 22px;
+        }
+
+        .kpi-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 17px 16px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .kpi-label {
+            color: #60708f;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 21px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .kpi-description {
+            margin-top: 7px;
+            color: #718096;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .secondary-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+            margin-bottom: 32px;
+        }
+
+        .secondary-kpi {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 17px 16px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .secondary-kpi h3 {
+            margin: 0 0 9px;
+            font-size: 13px;
+            color: #111827;
+        }
+
+        .secondary-kpi .value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #172554;
+        }
+
+        .secondary-kpi p {
+            margin: 5px 0 0;
+            color: #718096;
+            font-size: 9px;
+        }
+
+        .data-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .data-card h3 {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .data-card > p {
+            margin: 6px 0 14px;
+            color: #718096;
+            font-size: 9px;
+        }
+
+        .dataset-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .dataset-stat {
+            background: #f7f9fc;
+            border-radius: 8px;
+            padding: 13px 12px;
+            min-height: 61px;
+        }
+
+        .dataset-stat .label {
+            font-size: 8px;
+            color: #61708c;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+
+        .dataset-stat .number {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .sample-title {
+            margin: 4px 0 6px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .sample-description {
+            color: #718096;
+            font-size: 9px;
+            margin-bottom: 10px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9px;
+        }
+
+        th {
+            background: #f7f9fc;
+            color: #53617b;
+            font-weight: 600;
+            text-align: left;
+            padding: 9px 10px;
+            border-bottom: 1px solid #dce3ed;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 9px 10px;
+            border-bottom: 1px solid #e8edf4;
+            color: #334155;
+            white-space: nowrap;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .approved {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .rejected {
+            color: #64748b;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .chart-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 13px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+            min-height: 320px;
+        }
+
+        .chart-card h3 {
+            margin: 2px 3px 7px;
+            font-size: 12px;
+            color: #111827;
+        }
+
+        .chart-container {
+            width: 100%;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .analysis-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .analysis-card h3 {
+            margin: 0 0 12px;
+            font-size: 13px;
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+            margin-bottom: 15px;
+        }
+
+        .risk-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .risk-card h3 {
+            margin: 0 0 10px;
+            font-size: 12px;
+        }
+
+        .risk-card .risk-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .risk-card p {
+            margin: 5px 0 0;
+            color: #718096;
+            font-size: 9px;
+        }
+
+        .insights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+        }
+
+        .insight-card {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+        }
+
+        .insight-card h3 {
+            margin: 0 0 11px;
+            font-size: 12px;
+        }
+
+        .insight-label {
+            font-size: 8px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 9px;
+            margin-bottom: 4px;
+        }
+
+        .insight-card p {
+            margin: 0;
+            color: #475569;
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .prediction-card {
+            background: linear-gradient(135deg, #172554, #2563eb);
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .prediction-card h2 {
+            margin: 0 0 7px;
+            font-size: 18px;
+        }
+
+        .prediction-card p {
+            margin: 0;
+            font-size: 10px;
+            color: #dbeafe;
+            max-width: 620px;
+            line-height: 1.5;
+        }
+
+        .prediction-button {
+            display: inline-block;
+            background: white;
+            color: #1d4ed8;
+            padding: 10px 16px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .prediction-button:hover {
+            background: #eff6ff;
+        }
+
+        .empty-state {
+            background: white;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            padding: 20px;
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        .plotly .modebar {
+            display: none !important;
+        }
+
+        @media (max-width: 1200px) {
+            .kpi-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .dataset-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .risk-grid,
+            .insights {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 150px;
+            }
+
+            .main {
+                margin-left: 150px;
+                padding: 0 18px 40px;
+            }
+
+            .chart-grid,
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .secondary-kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .kpi-grid,
+            .dataset-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .prediction-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h1>LoanLens</h1>
+            <p>Loan Analytics &amp; Risk Assessment</p>
+        </div>
+
+        <div class="nav-section">
+
+            <div class="nav-title">
+                ANALYTICS
+            </div>
+
+            <a href="#overview"
+               class="nav-item active"
+               data-section="overview">
+                🏠 Overview
+            </a>
+
+            <a href="#data-overview"
+               class="nav-item"
+               data-section="data-overview">
+                📋 Data Overview
+            </a>
+
+            <a href="#analytics"
+               class="nav-item"
+               data-section="analytics">
+                📊 Analytics
+            </a>
+
+            <a href="#risk-analysis"
+               class="nav-item"
+               data-section="risk-analysis">
+                ⚠️ Risk Analysis
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-title">
+                PREDICTION
+            </div>
+
+            <a href="{{ url_for('model_page') }}"
+               class="nav-item">
+                🤖 Model Performance
+            </a>
+
+            <a href="{{ url_for('personal') }}"
+               class="nav-item">
+                🔮 Try a Prediction
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+
+        <!-- OVERVIEW -->
+        <section id="overview" class="section">
+
+            <div class="page-header">
+
+                <h2>
+                    Executive Overview
+                </h2>
+
+                <p>
+                    Key indicators from the loan application dataset.
+                </p>
+
+            </div>
+
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+
+                    <div class="kpi-label">
+                        Total Applications
+                    </div>
+
+                    <div class="kpi-value">
+                        {{ kpis.get('total_applications', 0) }}
+                    </div>
+
+                    <div class="kpi-description">
+                        Total records available in the dataset.
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-label">
+                        Completed Applications
+                    </div>
+
+                    <div class="kpi-value">
+                        {{ kpis.get('completed_applications', 0) }}
+                    </div>
+
+                    <div class="kpi-description">
+                        Applications with a recorded outcome.
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-label">
+                        Approved
+                    </div>
+
+                    <div class="kpi-value">
+                        {{ kpis.get('approved_applications', 0) }}
+                    </div>
+
+                    <div class="kpi-description">
+                        Applications approved in the dataset.
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-label">
+                        Approval Rate
+                    </div>
+
+                    <div class="kpi-value">
+                        {{ "%.1f"|format(kpis.get('approval_rate', 0)) }}%
+                    </div>
+
+                    <div class="kpi-description">
+                        Approval rate among completed applications.
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-label">
+                        Avg. Loan Amount
+                    </div>
+
+                    <div class="kpi-value">
+                        ₹{{ "{:,.0f}".format(kpis.get('average_loan_amount', 0)) }}
+                    </div>
+
+                    <div class="kpi-description">
+                        Average requested loan amount.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="secondary-kpi-grid">
+
+                <div class="secondary-kpi">
+
+                    <h3>
+                        Average Credit Score
+                    </h3>
+
+                    <div class="value">
+                        {{ "{:,.0f}".format(kpis.get('average_credit_score', 0)) }}
+                    </div>
+
+                    <p>
+                        Average credit score across applicants.
+                    </p>
+
+                </div>
+
+
+                <div class="secondary-kpi">
+
+                    <h3>
+                        Average DTI Ratio
+                    </h3>
+
+                    <div class="value">
+                        {{ "%.2f"|format(kpis.get('average_dti', 0)) }}
+                    </div>
+
+                    <p>
+                        Average debt-to-income ratio.
+                    </p>
+
+                </div>
+
+
+                <div class="secondary-kpi">
+
+                    <h3>
+                        Average Applicant Income
+                    </h3>
+
+                    <div class="value">
+                        ₹{{ "{:,.0f}".format(kpis.get('average_income', 0)) }}
+                    </div>
+
+                    <p>
+                        Average applicant income.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DATA OVERVIEW -->
+        <section id="data-overview" class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Dataset Overview
+                </h2>
+
+                <p>
+                    Dataset used for LoanLens analytics, risk analysis and prediction modeling.
+                </p>
+
+            </div>
+
+
+            <div class="data-card">
+
+                <h3>
+                    loan_approval_data.csv
+                </h3>
+
+                <p>
+                    The dataset contains applicant, financial, employment and loan information.
+                </p>
+
+
+                <div class="dataset-stats">
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Total Records
+                        </div>
+                        <div class="number">
+                            1,000
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Features
+                        </div>
+                        <div class="number">
+                            20
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Completed Outcomes
+                        </div>
+                        <div class="number">
+                            950
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Missing Outcomes
+                        </div>
+                        <div class="number">
+                            50
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Approved
+                        </div>
+                        <div class="number">
+                            298
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Rejected
+                        </div>
+                        <div class="number">
+                            652
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Approval Rate
+                        </div>
+                        <div class="number">
+                            31.4%
+                        </div>
+                    </div>
+
+
+                    <div class="dataset-stat">
+                        <div class="label">
+                            Target
+                        </div>
+                        <div class="number">
+                            Loan Approved
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="sample-title">
+                    Dataset Sample
+                </div>
+
+                <div class="sample-description">
+                    Representative records from the dataset.
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Applicant Income</th>
+                                <th>Credit Score</th>
+                                <th>DTI Ratio</th>
+                                <th>Loan Amount</th>
+                                <th>Loan Purpose</th>
+                                <th>Employment</th>
+                                <th>Approved</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+                                <td>12000</td>
+                                <td>720</td>
+                                <td>0.25</td>
+                                <td>18000</td>
+                                <td>Home</td>
+                                <td>Salaried</td>
+                                <td class="approved">Yes</td>
+                            </tr>
+
+                            <tr>
+                                <td>8500</td>
+                                <td>610</td>
+                                <td>0.48</td>
+                                <td>25000</td>
+                                <td>Car</td>
+                                <td>Self-employed</td>
+                                <td class="rejected">No</td>
+                            </tr>
+
+                            <tr>
+                                <td>15000</td>
+                                <td>745</td>
+                                <td>0.21</td>
+                                <td>16000</td>
+                                <td>Education</td>
+                                <td>Salaried</td>
+                                <td class="approved">Yes</td>
+                            </tr>
+
+                            <tr>
+                                <td>7000</td>
+                                <td>590</td>
+                                <td>0.52</td>
+                                <td>30000</td>
+                                <td>Business</td>
+                                <td>Self-employed</td>
+                                <td class="rejected">No</td>
+                            </tr>
+
+                            <tr>
+                                <td>11000</td>
+                                <td>690</td>
+                                <td>0.31</td>
+                                <td>20000</td>
+                                <td>Personal</td>
+                                <td>Contract</td>
+                                <td class="approved">Yes</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ANALYTICS -->
+        <section id="analytics" class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Analytics
+                </h2>
+
+                <p>
+                    Explore the main factors associated with loan approval outcomes.
+                </p>
+
+            </div>
+
+
+            <div class="chart-grid">
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by Credit Score
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ credit_score_chart|safe }}
+                    </div>
+
+                </div>
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by DTI Ratio
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ dti_chart|safe }}
+                    </div>
+
+                </div>
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by Applicant Income
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ income_chart|safe }}
+                    </div>
+
+                </div>
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by Loan Amount
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ loan_amount_chart|safe }}
+                    </div>
+
+                </div>
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by Employment Status
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ employment_chart|safe }}
+                    </div>
+
+                </div>
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by Loan Purpose
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ loan_purpose_chart|safe }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-grid">
+
+
+                <div class="analysis-card">
+
+                    <h3>
+                        Applicant Segments — Employment
+                    </h3>
+
+                    {% if employment_analysis %}
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Employment</th>
+                                    <th>Applications</th>
+                                    <th>Approved</th>
+                                    <th>Approval Rate</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for row in employment_analysis %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ row.get('Employment_Status', '') }}
+                                    </td>
+
+                                    <td>
+                                        {{ row.get('Applications', 0) }}
+                                    </td>
+
+                                    <td>
+                                        {{ row.get('Approved', 0) }}
+                                    </td>
+
+                                    <td>
+                                        {{ "%.1f"|format(row.get('Approval_Rate', 0)) }}%
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state">
+                        No employment analysis available.
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <div class="analysis-card">
+
+                    <h3>
+                        Applicant Segments — Loan Purpose
+                    </h3>
+
+                    {% if loan_purpose_analysis %}
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Loan Purpose</th>
+                                    <th>Applications</th>
+                                    <th>Approved</th>
+                                    <th>Approval Rate</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for row in loan_purpose_analysis %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ row.get('Loan_Purpose', '') }}
+                                    </td>
+
+                                    <td>
+                                        {{ row.get('Applications', 0) }}
+                                    </td>
+
+                                    <td>
+                                        {{ row.get('Approved', 0) }}
+                                    </td>
+
+                                    <td>
+                                        {{ "%.1f"|format(row.get('Approval_Rate', 0)) }}%
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state">
+                        No loan purpose analysis available.
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RISK ANALYSIS -->
+        <section id="risk-analysis" class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Risk Analysis
+                </h2>
+
+                <p>
+                    Identify applicant characteristics associated with higher approval risk.
+                </p>
+
+            </div>
+
+
+            <div class="risk-grid">
+
+
+                <div class="risk-card">
+
+                    <h3>
+                        Low Credit Score
+                    </h3>
+
+                    <div class="risk-number">
+                        {{ risk_summary.get('low_credit', {}).get('count', 0) }}
+                    </div>
+
+                    <p>
+                        Applications in the low-credit segment.
+                    </p>
+
+                    <p>
+                        Approval Rate:
+                        <strong>
+                            {{ "%.1f"|format(risk_summary.get('low_credit', {}).get('approval_rate', 0)) }}%
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <div class="risk-card">
+
+                    <h3>
+                        High DTI Ratio
+                    </h3>
+
+                    <div class="risk-number">
+                        {{ risk_summary.get('high_dti', {}).get('count', 0) }}
+                    </div>
+
+                    <p>
+                        Applications with higher DTI levels.
+                    </p>
+
+                    <p>
+                        Approval Rate:
+                        <strong>
+                            {{ "%.1f"|format(risk_summary.get('high_dti', {}).get('approval_rate', 0)) }}%
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <div class="risk-card">
+
+                    <h3>
+                        High Existing Loans
+                    </h3>
+
+                    <div class="risk-number">
+                        {{ risk_summary.get('high_existing_loans', {}).get('count', 0) }}
+                    </div>
+
+                    <p>
+                        Applications above the existing-loan threshold.
+                    </p>
+
+                    <p>
+                        Approval Rate:
+                        <strong>
+                            {{ "%.1f"|format(risk_summary.get('high_existing_loans', {}).get('approval_rate', 0)) }}%
+                        </strong>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-grid">
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Approval by Number of Risk Factors
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ risk_factor_chart|safe }}
+                    </div>
+
+                </div>
+
+
+                <div class="chart-card">
+
+                    <h3>
+                        Combined Risk Analysis
+                    </h3>
+
+                    <div class="chart-container">
+                        {{ combined_risk_chart|safe }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% if combined_risk_analysis %}
+
+            <div class="analysis-card" style="margin-top: 14px;">
+
+                <h3>
+                    Combined Risk Segments
+                </h3>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Risk Factors</th>
+                                <th>Applications</th>
+                                <th>Approved</th>
+                                <th>Approval Rate</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for row in combined_risk_analysis %}
+
+                            <tr>
+
+                                <td>
+                                    {{ row.get('Risk Factors', 0) }}
+                                </td>
+
+                                <td>
+                                    {{ row.get('Applications', 0) }}
+                                </td>
+
+                                <td>
+                                    {{ row.get('Approved', 0) }}
+                                </td>
+
+                                <td>
+                                    {{ row.get('Approval Rate', 0) }}%
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+
+        <!-- KEY FINDINGS -->
+        <section class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Key Findings
+                </h2>
+
+                <p>
+                    Fact → Insight → Action based on the dataset.
+                </p>
+
+            </div>
+
+
+            <div class="insights">
+
+                {% for item in insights %}
+
+                <div class="insight-card">
+
+                    <h3>
+                        {{ item.get('title', 'Key Finding') }}
+                    </h3>
+
+
+                    <div class="insight-label">
+                        Fact
+                    </div>
+
+                    <p>
+                        {{ item.get('fact', '') }}
+                    </p>
+
+
+                    <div class="insight-label">
+                        Insight
+                    </div>
+
+                    <p>
+                        {{ item.get('insight', '') }}
+                    </p>
+
+
+                    <div class="insight-label">
+                        Action
+                    </div>
+
+                    <p>
+                        {{ item.get('action', '') }}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PREDICTION -->
+        <section class="section">
+
+            <div class="prediction-card">
+
+                <div>
+
+                    <h2>
+                        Test the Prediction Model
+                    </h2>
+
+                    <p>
+                        Enter applicant information and use the Random Forest model
+                        to generate a loan approval prediction.
+                    </p>
+
+                </div>
+
+
+                <a href="{{ url_for('personal') }}"
+                   class="prediction-button">
+
+                    Try a Prediction →
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ACTIVE SIDEBAR NAVIGATION -->
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const navItems = document.querySelectorAll(
+                ".nav-item[data-section]"
+            );
+
+            const sections = [];
+
+            navItems.forEach(function (item) {
+
+                const sectionId =
+                    item.getAttribute("data-section");
+
+                const section =
+                    document.getElementById(sectionId);
+
+                if (section) {
+
+                    sections.push({
+                        item: item,
+                        section: section
+                    });
+
+                }
+
+                item.addEventListener("click", function () {
+
+                    navItems.forEach(function (nav) {
+                        nav.classList.remove("active");
+                    });
+
+                    item.classList.add("active");
+
+                });
+
+            });
+
+
+            function updateActiveNavigation() {
+
+                const scrollPosition =
+                    window.scrollY + 180;
+
+                let currentSection = null;
+
+                sections.forEach(function (entry) {
+
+                    if (
+                        scrollPosition >=
+                        entry.section.offsetTop
+                    ) {
+
+                        currentSection = entry;
+
+                    }
+
+                });
+
+
+                navItems.forEach(function (item) {
+
+                    item.classList.remove("active");
+
+                });
+
+
+                if (currentSection) {
+
+                    currentSection.item.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+
+
+            window.addEventListener(
+                "scroll",
+                updateActiveNavigation
+            );
+
+
+            updateActiveNavigation();
+
+        });
+
+    </script>
+
+</body>
+</html>

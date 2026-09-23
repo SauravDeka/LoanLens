@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CreditWise | Prediction Result</title>
+
+
+    <!-- # CSS -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+
+        /* # Main Container */
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 80px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* # Header */
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+
+        .page-header h1 {
+            margin-bottom: 10px;
+        }
+
+
+        .page-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+
+        /* # Checking Screen */
+
+        .checking-container {
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+
+        .spinner {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 25px;
+            border: 5px solid #e5e7eb;
+            border-top: 5px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        .checking-container h2 {
+            margin-bottom: 12px;
+        }
+
+
+        .checking-container p {
+            color: #6b7280;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+
+        .checking-status {
+            font-weight: bold;
+            color: #2563eb;
+            min-height: 24px;
+        }
+
+
+        /* # Result */
+
+        .result-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        .result-container h2 {
+            margin-bottom: 20px;
+        }
+
+
+        .result {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+
+        .message {
+            color: #4b5563;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+
+        /* # Back Button */
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+
+        .back-button:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* # Hide Result Initially */
+
+        #result-section {
+            display: none;
+        }
+
+
+        /* # Responsive Design */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 95%;
+                padding: 25px;
+                margin: 40px auto;
+            }
+
+
+            .result {
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+
+        <!-- # Header -->
+
+        <header class="page-header">
+
+            <h1>CreditWise</h1>
+
+            <p>
+                AI-Powered Loan Approval Prediction
+            </p>
+
+        </header>
+
+
+        <!-- # Checking Application -->
+
+        <div class="checking-container" id="checking-section">
+
+            <div class="spinner"></div>
+
+
+            <h2>
+                Analyzing Your Application
+            </h2>
+
+
+            <p>
+                Please wait while CreditWise evaluates your application.
+            </p>
+
+
+            <p class="checking-status" id="checking-status">
+                Checking financial information...
+            </p>
+
+        </div>
+
+
+        <!-- # Prediction Result -->
+
+        <div class="result-container" id="result-section">
+
+            <h2>
+                Loan Prediction
+            </h2>
+
+
+            <p class="result">
+                {{ prediction }}
+            </p>
+
+
+            <p class="message">
+                {{ message }}
+            </p>
+
+
+            <!-- # Start New Application -->
+
+            <a href="/" class="back-button">
+                Check Another Application
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- # Loading Animation -->
+
+    <script>
+
+        const messages = [
+            "Checking financial information...",
+            "Evaluating loan eligibility...",
+            "Analyzing credit profile...",
+            "Running CreditWise prediction..."
+        ];
+
+
+        let messageIndex = 0;
+
+
+        const statusElement = document.getElementById("checking-status");
+
+
+        const messageInterval = setInterval(() => {
+
+            messageIndex++;
+
+            if (messageIndex < messages.length) {
+
+                statusElement.textContent = messages[messageIndex];
+
+            }
+
+        }, 1000);
+
+
+        setTimeout(() => {
+
+            clearInterval(messageInterval);
+
+            document.getElementById("checking-section").style.display = "none";
+
+            document.getElementById("result-section").style.display = "block";
+
+        }, 4000);
+
+    </script>
+
+</body>
+
+</html>

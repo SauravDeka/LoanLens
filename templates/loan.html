@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CreditWise | Loan Information</title>
+
+    <style>
+
+        /* ============================================================
+           PAGE
+        ============================================================ */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #dbeafe 0%,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef5ff,
+                    #f8fbff
+                );
+
+            color: #1e293b;
+        }
+
+
+        /* ============================================================
+           MAIN CONTAINER
+        ============================================================ */
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+
+            margin: 40px auto;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.08);
+
+            animation: fadeIn 0.5s ease;
+        }
+
+
+        /* ============================================================
+           HEADER
+        ============================================================ */
+
+        .page-header {
+            text-align: center;
+
+            margin-bottom: 28px;
+        }
+
+        .brand {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 9px;
+
+            margin-bottom: 8px;
+        }
+
+        .brand-icon {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .page-header h1 {
+            margin: 0;
+
+            font-size: 28px;
+
+            color: #1d4ed8;
+        }
+
+        .page-header p {
+            margin: 7px 0 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* ============================================================
+           PROGRESS
+        ============================================================ */
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 9px;
+
+            font-size: 13px;
+        }
+
+        .progress-title {
+            color: #475569;
+
+            font-weight: 600;
+        }
+
+        .progress-step {
+            color: #2563eb;
+
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 7px;
+
+            background: #e2e8f0;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 100%;
+            height: 100%;
+
+            background: #2563eb;
+
+            border-radius: 20px;
+
+            transition: width 0.4s ease;
+        }
+
+
+        /* ============================================================
+           FORM
+        ============================================================ */
+
+        form {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        /* ============================================================
+           LABEL
+        ============================================================ */
+
+        label {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #334155;
+        }
+
+
+        /* ============================================================
+           INFORMATION BUTTON
+        ============================================================ */
+
+        .info-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 20px;
+            height: 20px;
+
+            padding: 0;
+
+            border: 1px solid #2563eb;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .info-button:hover {
+            background: #2563eb;
+
+            color: white;
+
+            transform: scale(1.05);
+        }
+
+
+        /* ============================================================
+           INFO BOX
+        ============================================================ */
+
+        .info-box {
+            display: none;
+
+            margin-top: 8px;
+            margin-bottom: 8px;
+
+            padding: 10px 12px;
+
+            border-left: 3px solid #2563eb;
+
+            border-radius: 6px;
+
+            background: #eff6ff;
+
+            color: #475569;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ============================================================
+           INPUTS AND SELECTS
+        ============================================================ */
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            background: white;
+
+            color: #1e293b;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        input:hover,
+        select:hover {
+            border-color: #94a3b8;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+
+        /* ============================================================
+           NAVIGATION BUTTONS
+        ============================================================ */
+
+        .navigation {
+            grid-column: 1 / -1;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 120px;
+
+            padding: 11px 20px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .back-button {
+            border: 1px solid #cbd5e1;
+
+            background: white;
+
+            color: #475569;
+        }
+
+        .back-button:hover {
+            border-color: #94a3b8;
+
+            background: #f8fafc;
+        }
+
+        .next-button {
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, 0.20);
+        }
+
+        .next-button:hover {
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 16px rgba(37, 99, 235, 0.25);
+        }
+
+
+        /* ============================================================
+           ANIMATION
+        ============================================================ */
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 94%;
+
+                margin: 20px auto;
+
+                padding: 25px;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ============================================================
+         HEADER
+    ============================================================ -->
+
+    <header class="page-header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✓
+            </div>
+
+            <h1>CreditWise</h1>
+
+        </div>
+
+        <p>
+            AI-Powered Loan Approval Prediction
+        </p>
+
+    </header>
+
+
+    <!-- ============================================================
+         PROGRESS
+    ============================================================ -->
+
+    <div class="progress-section">
+
+        <div class="progress-top">
+
+            <span class="progress-title">
+                Application Progress
+            </span>
+
+            <span class="progress-step">
+                Step 4 of 4
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================
+         LOAN INFORMATION FORM
+    ============================================================ -->
+
+    <form action="/loan" method="POST">
+
+
+        <!-- ========================================================
+             LOAN AMOUNT
+        ======================================================== -->
+
+        <div class="form-group">
+
+            <label for="Loan_Amount">
+
+                Loan Amount
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="showInfo('loanAmountInfo')"
+                >
+                    i
+                </button>
+
+            </label>
+
+            <div id="loanAmountInfo" class="info-box">
+                Enter the amount of money you want to borrow through
+                this loan application.
+            </div>
+
+            <input
+                type="number"
+                id="Loan_Amount"
+                name="Loan_Amount"
+                min="0"
+                step="0.01"
+                required
+                value="{{ loan.get('Loan_Amount', '') }}"
+                placeholder="Enter loan amount"
+            >
+
+        </div>
+
+
+        <!-- ========================================================
+             LOAN TERM
+        ======================================================== -->
+
+        <div class="form-group">
+
+            <label for="Loan_Term">
+
+                Loan Term
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="showInfo('loanTermInfo')"
+                >
+                    i
+                </button>
+
+            </label>
+
+            <div id="loanTermInfo" class="info-box">
+                Select the duration over which you plan to repay the
+                loan.
+            </div>
+
+            <select
+                id="Loan_Term"
+                name="Loan_Term"
+                required
+            >
+
+                <option value="">
+                    Select loan term
+                </option>
+
+                <option
+                    value="12"
+                    {% if loan.get('Loan_Term') == 12 %}selected{% endif %}
+                >
+                    12 Months
+                </option>
+
+                <option
+                    value="24"
+                    {% if loan.get('Loan_Term') == 24 %}selected{% endif %}
+                >
+                    24 Months
+                </option>
+
+                <option
+                    value="36"
+                    {% if loan.get('Loan_Term') == 36 %}selected{% endif %}
+                >
+                    36 Months
+                </option>
+
+                <option
+                    value="48"
+                    {% if loan.get('Loan_Term') == 48 %}selected{% endif %}
+                >
+                    48 Months
+                </option>
+
+                <option
+                    value="60"
+                    {% if loan.get('Loan_Term') == 60 %}selected{% endif %}
+                >
+                    60 Months
+                </option>
+
+                <option
+                    value="72"
+                    {% if loan.get('Loan_Term') == 72 %}selected{% endif %}
+                >
+                    72 Months
+                </option>
+
+                <option
+                    value="84"
+                    {% if loan.get('Loan_Term') == 84 %}selected{% endif %}
+                >
+                    84 Months
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ========================================================
+             LOAN PURPOSE
+        ======================================================== -->
+
+        <div class="form-group">
+
+            <label for="Loan_Purpose">
+
+                Loan Purpose
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="showInfo('loanPurposeInfo')"
+                >
+                    i
+                </button>
+
+            </label>
+
+            <div id="loanPurposeInfo" class="info-box">
+                Select the main reason for which you are requesting
+                the loan.
+            </div>
+
+            <select
+                id="Loan_Purpose"
+                name="Loan_Purpose"
+                required
+            >
+
+                <option value="">
+                    Select loan purpose
+                </option>
+
+                <option
+                    value="Business"
+                    {% if loan.get('Loan_Purpose') == 'Business' %}selected{% endif %}
+                >
+                    Business
+                </option>
+
+                <option
+                    value="Car"
+                    {% if loan.get('Loan_Purpose') == 'Car' %}selected{% endif %}
+                >
+                    Car
+                </option>
+
+                <option
+                    value="Education"
+                    {% if loan.get('Loan_Purpose') == 'Education' %}selected{% endif %}
+                >
+                    Education
+                </option>
+
+                <option
+                    value="Home"
+                    {% if loan.get('Loan_Purpose') == 'Home' %}selected{% endif %}
+                >
+                    Home
+                </option>
+
+                <option
+                    value="Personal"
+                    {% if loan.get('Loan_Purpose') == 'Personal' %}selected{% endif %}
+                >
+                    Personal
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ========================================================
+             PROPERTY AREA
+        ======================================================== -->
+
+        <div class="form-group">
+
+            <label for="Property_Area">
+
+                Property Area
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="showInfo('propertyInfo')"
+                >
+                    i
+                </button>
+
+            </label>
+
+            <div id="propertyInfo" class="info-box">
+                Select the type of area where the property associated
+                with the application is located.
+            </div>
+
+            <select
+                id="Property_Area"
+                name="Property_Area"
+                required
+            >
+
+                <option value="">
+                    Select property area
+                </option>
+
+                <option
+                    value="Rural"
+                    {% if loan.get('Property_Area') == 'Rural' %}selected{% endif %}
+                >
+                    Rural
+                </option>
+
+                <option
+                    value="Semiurban"
+                    {% if loan.get('Property_Area') == 'Semiurban' %}selected{% endif %}
+                >
+                    Semiurban
+                </option>
+
+                <option
+                    value="Urban"
+                    {% if loan.get('Property_Area') == 'Urban' %}selected{% endif %}
+                >
+                    Urban
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ========================================================
+             COLLATERAL VALUE
+        ======================================================== -->
+
+        <div class="form-group">
+
+            <label for="Collateral_Value">
+
+                Collateral Value
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="showInfo('collateralInfo')"
+                >
+                    i
+                </button>
+
+            </label>
+
+            <div id="collateralInfo" class="info-box">
+                Enter the estimated value of the property or asset
+                offered as collateral for the loan.
+            </div>
+
+            <input
+                type="number"
+                id="Collateral_Value"
+                name="Collateral_Value"
+                min="0"
+                step="0.01"
+                required
+                value="{{ loan.get('Collateral_Value', '') }}"
+                placeholder="Enter collateral value"
+            >
+
+        </div>
+
+
+        <!-- ========================================================
+             NAVIGATION
+        ======================================================== -->
+
+        <div class="navigation">
+
+            <a
+                href="/financial"
+                class="button back-button"
+            >
+                ← Back
+            </a>
+
+            <button
+                type="submit"
+                class="button next-button"
+            >
+                Predict Loan →
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ================================================================
+     INFORMATION BUTTON SCRIPT
+================================================================ -->
+
+<script>
+
+    function showInfo(id) {
+
+        const infoBox = document.getElementById(id);
+
+        if (infoBox.style.display === "block") {
+
+            infoBox.style.display = "none";
+
+        } else {
+
+            infoBox.style.display = "block";
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>

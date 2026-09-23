@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CreditWise | Personal Information</title>
+
+
+    <!-- # CSS -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* ============================================================
+           # PAGE BACKGROUND
+        ============================================================ */
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(37, 99, 235, 0.12),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 90%,
+                    rgba(59, 130, 246, 0.10),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef5ff 0%,
+                    #f8fbff 50%,
+                    #eef5ff 100%
+                );
+
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+
+        /* ============================================================
+           # MAIN CONTAINER
+        ============================================================ */
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+
+            margin: 40px auto;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            padding: 35px;
+
+            border-radius: 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+
+            box-shadow:
+                0 10px 35px rgba(15, 23, 42, 0.10),
+                0 2px 8px rgba(15, 23, 42, 0.05);
+
+            animation: fadeIn 0.5s ease;
+        }
+
+
+        /* ============================================================
+           # HEADER
+        ============================================================ */
+
+        .page-header {
+            text-align: center;
+
+            margin-bottom: 30px;
+
+            padding-bottom: 25px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .brand {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #2563eb;
+
+            color: white;
+
+            border-radius: 10px;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, 0.25);
+        }
+
+
+        .page-header h1 {
+            margin: 0;
+
+            color: #102a43;
+
+            font-size: 32px;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        .page-header p {
+            color: #64748b;
+
+            margin: 0;
+
+            font-size: 14px;
+        }
+
+
+        /* ============================================================
+           # PROGRESS
+        ============================================================ */
+
+        .progress-wrapper {
+            margin-bottom: 28px;
+        }
+
+
+        .progress-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 8px;
+
+            font-size: 13px;
+
+            color: #64748b;
+        }
+
+
+        .progress-step {
+            font-weight: bold;
+
+            color: #2563eb;
+        }
+
+
+        .progress-bar {
+            width: 100%;
+
+            height: 6px;
+
+            background: #e5e7eb;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-fill {
+            width: 25%;
+
+            height: 100%;
+
+            background: #2563eb;
+
+            border-radius: 10px;
+
+            transition: width 0.3s ease;
+        }
+
+
+        /* ============================================================
+           # FORM SECTION
+        ============================================================ */
+
+        .form-section h2 {
+            margin: 0 0 8px 0;
+
+            color: #102a43;
+
+            font-size: 24px;
+        }
+
+
+        .description {
+            color: #64748b;
+
+            margin: 0 0 30px 0;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+        }
+
+
+        /* ============================================================
+           # FORM GRID
+        ============================================================ */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 22px 20px;
+        }
+
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            position: relative;
+        }
+
+
+        /* ============================================================
+           # LABEL ROW
+        ============================================================ */
+
+        .label-row {
+            display: flex;
+
+            align-items: center;
+
+            margin-bottom: 8px;
+        }
+
+
+        .label-row label {
+            font-weight: bold;
+
+            color: #374151;
+
+            font-size: 14px;
+        }
+
+
+        /* ============================================================
+           # INFORMATION BUTTON
+        ============================================================ */
+
+        .info-button {
+            width: 20px;
+            height: 20px;
+
+            margin-left: 8px;
+
+            padding: 0;
+
+            border: 1px solid #2563eb;
+
+            border-radius: 50%;
+
+            background: white;
+
+            color: #2563eb;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .info-button:hover {
+            background: #2563eb;
+
+            color: white;
+
+            transform: scale(1.05);
+        }
+
+
+        /* ============================================================
+           # INFORMATION BOX
+        ============================================================ */
+
+        .info-box {
+            display: none;
+
+            margin-bottom: 10px;
+
+            padding: 11px 13px;
+
+            background: #eff6ff;
+
+            border-left: 3px solid #2563eb;
+
+            border-radius: 6px;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .info-box.show {
+            display: block;
+
+            animation: infoFade 0.2s ease;
+        }
+
+
+        /* ============================================================
+           # INPUTS
+        ============================================================ */
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            background: #ffffff;
+
+            color: #1f2937;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        .form-group input:hover,
+        .form-group select:hover {
+            border-color: #9ca3af;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+
+            border-color: #2563eb;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+
+        /* ============================================================
+           # BUTTON
+        ============================================================ */
+
+        .button-container {
+            margin-top: 32px;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+
+        button[type="submit"] {
+            min-width: 130px;
+
+            padding: 12px 30px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, 0.20);
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        button[type="submit"]:hover {
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 16px rgba(37, 99, 235, 0.25);
+        }
+
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+
+        /* ============================================================
+           # ANIMATIONS
+        ============================================================ */
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+
+        }
+
+
+        @keyframes infoFade {
+
+            from {
+                opacity: 0;
+
+                transform: translateY(-3px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* ============================================================
+           # RESPONSIVE DESIGN
+        ============================================================ */
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .container {
+                width: 95%;
+
+                padding: 25px 20px;
+
+                margin: 25px auto;
+            }
+
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+
+            .page-header p {
+                font-size: 14px;
+            }
+
+
+            .form-section h2 {
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- ============================================================
+             # HEADER
+        ============================================================ -->
+
+        <header class="page-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ✓
+                </div>
+
+                <h1>
+                    CreditWise
+                </h1>
+
+            </div>
+
+
+            <p>
+                AI-Powered Loan Approval Prediction
+            </p>
+
+        </header>
+
+
+        <!-- ============================================================
+             # PROGRESS
+        ============================================================ -->
+
+        <div class="progress-wrapper">
+
+            <div class="progress-header">
+
+                <span>
+                    Application Progress
+                </span>
+
+                <span class="progress-step">
+                    Step 1 of 4
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div class="progress-fill"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             # PERSONAL INFORMATION
+        ============================================================ -->
+
+        <section class="form-section">
+
+            <h2>
+                Personal Information
+            </h2>
+
+
+            <p class="description">
+
+                Enter the applicant's personal details.
+                Click the ⓘ button if you need help understanding a field.
+
+            </p>
+
+
+            <form action="/personal" method="POST">
+
+
+                <div class="form-grid">
+
+
+                    <!-- ====================================================
+                         # AGE
+                    ==================================================== -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="Age">
+                                Age
+                            </label>
+
+
+                            <button
+                                type="button"
+                                class="info-button"
+                                onclick="toggleInfo('age-info')"
+                            >
+                                ⓘ
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="age-info"
+                            class="info-box"
+                        >
+
+                            Enter the applicant's current age in years.
+                            The value should be between 18 and 100.
+
+                        </div>
+
+
+                        <input
+                            type="number"
+                            id="Age"
+                            name="Age"
+                            value="{{ personal.get('Age', '') }}"
+                            min="18"
+                            max="100"
+                            step="1"
+                            inputmode="numeric"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ====================================================
+                         # GENDER
+                    ==================================================== -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="Gender">
+                                Gender
+                            </label>
+
+
+                            <button
+                                type="button"
+                                class="info-button"
+                                onclick="toggleInfo('gender-info')"
+                            >
+                                ⓘ
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="gender-info"
+                            class="info-box"
+                        >
+
+                            Select the applicant's gender from the
+                            available options.
+
+                        </div>
+
+
+                        <select
+                            id="Gender"
+                            name="Gender"
+                            required
+                        >
+
+                            <option value="">
+                                Select Gender
+                            </option>
+
+
+                            <option
+                                value="Female"
+                                {% if personal.get('Gender') == 'Female' %}selected{% endif %}
+                            >
+                                Female
+                            </option>
+
+
+                            <option
+                                value="Male"
+                                {% if personal.get('Gender') == 'Male' %}selected{% endif %}
+                            >
+                                Male
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ====================================================
+                         # MARITAL STATUS
+                    ==================================================== -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="Marital_Status">
+                                Marital Status
+                            </label>
+
+
+                            <button
+                                type="button"
+                                class="info-button"
+                                onclick="toggleInfo('marital-info')"
+                            >
+                                ⓘ
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="marital-info"
+                            class="info-box"
+                        >
+
+                            Select whether the applicant is married
+                            or single.
+
+                        </div>
+
+
+                        <select
+                            id="Marital_Status"
+                            name="Marital_Status"
+                            required
+                        >
+
+                            <option value="">
+                                Select Marital Status
+                            </option>
+
+
+                            <option
+                                value="Married"
+                                {% if personal.get('Marital_Status') == 'Married' %}selected{% endif %}
+                            >
+                                Married
+                            </option>
+
+
+                            <option
+                                value="Single"
+                                {% if personal.get('Marital_Status') == 'Single' %}selected{% endif %}
+                            >
+                                Single
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ====================================================
+                         # DEPENDENTS
+                    ==================================================== -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="Dependents">
+                                Dependents
+                            </label>
+
+
+                            <button
+                                type="button"
+                                class="info-button"
+                                onclick="toggleInfo('dependents-info')"
+                            >
+                                ⓘ
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="dependents-info"
+                            class="info-box"
+                        >
+
+                            Enter the number of people who financially
+                            depend on the applicant, such as children
+                            or other family members.
+
+                        </div>
+
+
+                        <input
+                            type="number"
+                            id="Dependents"
+                            name="Dependents"
+                            value="{{ personal.get('Dependents', '') }}"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ====================================================
+                         # EDUCATION LEVEL
+                    ==================================================== -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="Education_Level">
+                                Education Level
+                            </label>
+
+
+                            <button
+                                type="button"
+                                class="info-button"
+                                onclick="toggleInfo('education-info')"
+                            >
+                                ⓘ
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="education-info"
+                            class="info-box"
+                        >
+
+                            Select the applicant's highest education level.
+                            12th/Diploma is treated as Not Graduate, while
+                            Bachelor's, Master's and PhD are treated as
+                            Graduate by the trained model.
+
+                        </div>
+
+
+                        <select
+                            id="Education_Level"
+                            name="Education_Level"
+                            required
+                        >
+
+                            <option value="">
+                                Select Education Level
+                            </option>
+
+
+                            <!-- 12th / Diploma → Not Graduate -->
+
+                            <option
+                                value="Not Graduate"
+                                {% if personal.get('Education_Level') == 'Not Graduate' %}selected{% endif %}
+                            >
+                                12th / Diploma
+                            </option>
+
+
+                            <!-- Bachelor's → Graduate -->
+
+                            <option
+                                value="Graduate"
+                                {% if personal.get('Education_Level') == 'Graduate' %}selected{% endif %}
+                            >
+                                Bachelor's
+                            </option>
+
+
+                            <!-- Master's → Graduate -->
+
+                            <option
+                                value="Graduate"
+                            >
+                                Master's
+                            </option>
+
+
+                            <!-- PhD → Graduate -->
+
+                            <option
+                                value="Graduate"
+                            >
+                                PhD
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ========================================================
+                     # NAVIGATION BUTTON
+                ======================================================== -->
+
+                <div class="button-container">
+
+                    <button type="submit">
+                        Next
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+    </div>
+
+
+    <!-- ================================================================
+         # JAVASCRIPT
+    ================================================================ -->
+
+    <script>
+
+        function toggleInfo(infoId) {
+
+            const infoBox = document.getElementById(infoId);
+
+            infoBox.classList.toggle("show");
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
